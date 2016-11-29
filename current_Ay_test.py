@@ -59,14 +59,14 @@ def initialchi(x, y):
 
 def integralResult(yl):
     #val, abserr = dblquad(lambda x, y: rho(y)*h_const*N_g*devx(x, y, 'f')*2*initialchi(x, y), yl_i-yl, yl_f-yl, lambda x: -2, lambda x: 2)
-    val1, abserr1 = dblquad(lambda x, y: rho(y, 0) * N_f * devx(x, y, 'f'), -L, 0, lambda x: -np.Infinity, lambda x: np.Infinity)
-    val2, abserr2 = dblquad(lambda x, y: rho(y, 0) * N_f * devx(x, y, 'f'), 0, L-yl, lambda x: -np.Infinity, lambda x: np.Infinity)
+    val1, abserr1 = dblquad(lambda x, y: rho(y, 1) * N_f * devx(x, y, 'f'), -L, 0, lambda x: -np.Infinity, lambda x: np.Infinity)
+    val2, abserr2 = dblquad(lambda x, y: rho(y, 1) * N_f * devx(x, y, 'f'), 0, L-yl, lambda x: -np.Infinity, lambda x: np.Infinity)
     return (val1+val2)/np.pi
 
 
 def integralAY(yl):
-    val1, abserr1 = quad(lambda y: rho(y, 0), -L, 0.5*yl)
-    val2, abserr2 = quad(lambda y: rho(y, 0), 0.5*yl, L)
+    val1, abserr1 = quad(lambda y: rho(y, 1), -L, 0.5*yl)
+    val2, abserr2 = quad(lambda y: rho(y, 1), 0.5*yl, L)
     return val1 - val2
 
 #############Test Area##############################
