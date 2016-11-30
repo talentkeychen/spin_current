@@ -9,21 +9,21 @@ import matplotlib.pyplot as plt
 gamma = 0.0    # the strength of the noise
 sigma_2 = 1    # the sigma square in the function of noise
 sigma_1 = 1    # the sigma square in the initial state Chi(r)
-sigma_3 = 1000    # the sigma square of the density rho(y)
+sigma_3 = 100000    # the sigma square of the density rho(y)
 sigma_4 = 1    # another sigma square in the initial state Chi(r)
 x_0 = np.array([1, -2])
 y_0 = np.array([0, 0])     # the coordinates of the centers of the noise
 N = len(x_0)   # the length of the coordinates array
-N_f = 1        # the winding number of f(x,y)
+N_f = 3        # the winding number of f(x,y)
 N_g = 1        # the winding number of g(x,y)
 NN = (N_f**2-N_g**2)/N_g  # the big N
-yl_i = 10      # the initial value of yl
-yl_f = 80      # the final value of yl
-yl = np.linspace(yl_i, yl_f, 10)  # the y position of placing single vortex when measuring
+L = 300         # the length of the density window
+yl_i = 1      # the initial value of yl
+yl_f = 30     # the final value of yl
+yl = np.linspace(yl_i, yl_f, 20)  # the y position of placing single vortex when measuring
 Nl = len(yl)   # the length of yl
 h_const = 1      # h_bar over m
-L = 80         # the length of the density window
-N_rho = 100    # the N for the density function rho
+N_rho = 1000    # the N for the density function rho
 # Define functions
 
 
@@ -46,8 +46,8 @@ def rho(y, t):# the density of order parameter
     if t == 0:
         return 1
     elif t == 1:
-        return (N_rho/np.sqrt(2*np.pi*sigma_3)) * np.exp(-y**2/(2*sigma_3))
-
+        return (N_rho/np.sqrt(2*np.pi*sigma_3)) * np.exp(-1*y**2/(2*sigma_3))
+t =1
 
 def initialchi(x, y):
     return 1/np.sqrt(2*np.pi*sigma_4)*np.exp(-x**2/(2*sigma_4)-y**2/(2*sigma_4))
@@ -59,14 +59,14 @@ def initialchi(x, y):
 
 def integralResult(yl):
     #val, abserr = dblquad(lambda x, y: rho(y)*h_const*N_g*devx(x, y, 'f')*2*initialchi(x, y), yl_i-yl, yl_f-yl, lambda x: -2, lambda x: 2)
-    val1, abserr1 = dblquad(lambda x, y: rho(y, 0) * N_f * devx(x, y, 'f'), -L, 0, lambda x: -np.Infinity, lambda x: np.Infinity)
-    val2, abserr2 = dblquad(lambda x, y: rho(y, 0) * N_f * devx(x, y, 'f'), 0, L-yl, lambda x: -np.Infinity, lambda x: np.Infinity)
+    val1, abserr1 = dblquad(lambda x, y: rho(y, t) * N_f * devx(x, y, 'f'), -L-yl, 0, lambda x: -np.Infinity, lambda x: np.Infinity)
+    val2, abserr2 = dblquad(lambda x, y: rho(y, t) * N_f * devx(x, y, 'f'), 0, L-yl, lambda x: -np.Infinity, lambda x: np.Infinity)
     return (val1+val2)/np.pi
 
 
 def integralAY(yl):
-    val1, abserr1 = quad(lambda y: rho(y, 0), -L, 0.5*yl)
-    val2, abserr2 = quad(lambda y: rho(y, 0), 0.5*yl, L)
+    val1, abserr1 = quad(lambda y: rho(y, t), -np.Inf, yl)
+    val2, abserr2 = quad(lambda y: rho(y, t), yl, np.Inf)
     return val1 - val2
 
 #############Test Area##############################
