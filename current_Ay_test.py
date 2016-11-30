@@ -17,12 +17,12 @@ N = len(x_0)   # the length of the coordinates array
 N_f = 1        # the winding number of f(x,y)
 N_g = 1        # the winding number of g(x,y)
 NN = (N_f**2-N_g**2)/N_g  # the big N
-yl_i = 35      # the initial value of yl
-yl_f = 50      # the final value of yl
+yl_i = 10      # the initial value of yl
+yl_f = 80      # the final value of yl
 yl = np.linspace(yl_i, yl_f, 10)  # the y position of placing single vortex when measuring
 Nl = len(yl)   # the length of yl
 h_const = 1      # h_bar over m
-L = 60         # the length of the density window
+L = 80         # the length of the density window
 N_rho = 100    # the N for the density function rho
 # Define functions
 
@@ -59,14 +59,14 @@ def initialchi(x, y):
 
 def integralResult(yl):
     #val, abserr = dblquad(lambda x, y: rho(y)*h_const*N_g*devx(x, y, 'f')*2*initialchi(x, y), yl_i-yl, yl_f-yl, lambda x: -2, lambda x: 2)
-    val1, abserr1 = dblquad(lambda x, y: rho(y, 1) * N_f * devx(x, y, 'f'), -L, 0, lambda x: -np.Infinity, lambda x: np.Infinity)
-    val2, abserr2 = dblquad(lambda x, y: rho(y, 1) * N_f * devx(x, y, 'f'), 0, L-yl, lambda x: -np.Infinity, lambda x: np.Infinity)
+    val1, abserr1 = dblquad(lambda x, y: rho(y, 0) * N_f * devx(x, y, 'f'), -L, 0, lambda x: -np.Infinity, lambda x: np.Infinity)
+    val2, abserr2 = dblquad(lambda x, y: rho(y, 0) * N_f * devx(x, y, 'f'), 0, L-yl, lambda x: -np.Infinity, lambda x: np.Infinity)
     return (val1+val2)/np.pi
 
 
 def integralAY(yl):
-    val1, abserr1 = quad(lambda y: rho(y, 1), -L, 0.5*yl)
-    val2, abserr2 = quad(lambda y: rho(y, 1), 0.5*yl, L)
+    val1, abserr1 = quad(lambda y: rho(y, 0), -L, 0.5*yl)
+    val2, abserr2 = quad(lambda y: rho(y, 0), 0.5*yl, L)
     return val1 - val2
 
 #############Test Area##############################
