@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 # Parameter define
-gamma = 0.0    # the strength of the noise
+gamma = 0.3    # the strength of the noise
 sigma_2 = 1    # the sigma square in the function of noise
 sigma_1 = 1    # the sigma square in the initial state Chi(r)
 sigma_3 = 1000000    # the sigma square of the density rho(y)
@@ -30,11 +30,11 @@ delta = 0    # the length of the laser beam
 
 def devx(x, y, t):     # Derivative with respect to x
     tmp_1 = 0
-    tmp_2 = 0  # initialization
+    tmp_2 = 0          # initialization
     rslt = 0
-    if t == 'f':
+    if t == 'f':       # without noise
         rslt = -y/(x**2+y**2)
-    elif t == 'g':
+    elif t == 'g':     # with noise
         for i in range(N):
             tmp_1 = tmp_1+np.exp(-((x-x_0[i])**2+(y-y_0[i])**2)/(2*sigma_2))
         for j in range(N):
@@ -63,8 +63,8 @@ def initialchi(x, y):
 
 
 def integralResult(N, yl):
-    val1, abserr1 = dblquad(lambda x, y: rho1(y, yl) * N * devx(x, y, 'f'), -np.Inf, 0, lambda x: -np.Infinity,lambda x: np.Infinity)
-    val2, abserr2 = dblquad(lambda x, y: rho1(y, yl) * N * devx(x, y, 'f'), 0, np.Inf, lambda x: -np.Infinity,lambda x: np.Infinity)
+    val1, abserr1 = dblquad(lambda x, y: rho1(y, yl) * N * devx(x, y, 'g'), -np.Inf, 0, lambda x: -np.Infinity,lambda x: np.Infinity)
+    val2, abserr2 = dblquad(lambda x, y: rho1(y, yl) * N * devx(x, y, 'g'), 0, np.Inf, lambda x: -np.Infinity,lambda x: np.Infinity)
     return (val1 + val2) / np.pi
 
     #val1, abserr1 = dblquad(lambda x, y: rho(y, t) * N_f * devx(x, y, 'f'), -np.Inf, 0, lambda x: -np.Infinity, lambda x: np.Infinity)
@@ -98,11 +98,14 @@ def integralAY(yl):
 Jtot1 = []    # the total current measured
 Jtot2 = []
 Jtot3 = []
-Ay = []                                # the A_y
+Ay = []   # the A_y
+print('Start the integration')
 for j in range(Nl):
+    #print('Start the integration')
     Jtot1.append(integralResult(1, yl[j]))
     Jtot2.append(integralResult(2, yl[j]))
     Jtot3.append(integralResult(3, yl[j]))
+    print('Integration completed for yl=', yl[j])
     Ay.append(integralAY(yl[j]))
 #print(Jtot)
 #print(Ay)
