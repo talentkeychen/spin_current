@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 # Parameter define
-gamma = 0.3    # the strength of the noise
+gamma = 0.8    # the strength of the noise
 sigma_2 = 1    # the sigma square in the function of noise
 sigma_1 = 1    # the sigma square in the initial state Chi(r)
 sigma_3 = 1000000    # the sigma square of the density rho(y)
