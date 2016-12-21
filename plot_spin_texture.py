@@ -41,6 +41,6 @@ plt.pcolormesh(X, Y, Z)
 
 plt.colorbar()                  # adds the colour bar
 
-plt.xlabel('X')
-plt.ylabel('Y')
+plt.xlabel(r'$X$')
+plt.ylabel(r'$Y$')
 plt.show(plot1)
