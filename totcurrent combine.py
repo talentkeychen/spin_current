@@ -1,3 +1,10 @@
+# This is the script for plotting the spin
+# texture and spin currents.
+# Here we will add some noise to the order
+# parameter
+#
+# Tian-Qi Chen, 20/11/2016
+
 import numpy as np
 from scipy.integrate import dblquad, quad
 from scipy.stats import linregress
